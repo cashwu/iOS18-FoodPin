@@ -13,15 +13,20 @@ struct RestaurantListView: View {
     
     var restaurantImages = ["cafedeadend", "homei", "teakha", "cafeloisl", "petiteoyster", "forkee", "posatelier", "bourkestreetbakery", "haigh", "palomino", "upstate", "traif", "graham", "waffleandwolf", "fiveleaves", "cafelore", "confessional", "barrafina", "donostia", "royaloak", "cask"]
     
+    @State var restaurantIsFavorites = Array(repeating: false, count: 21)
+    
     var body: some View {
         List {
             ForEach(restaurantNames.indices, id:\.self) { index in
                 
                 
-                BasicTextImageRow(imageName: restaurantImages[index],
-                                  name: restaurantNames[index],
-                                  type: "type",
-                                  location: "location")
+                BasicTextImageRow(
+                    imageName: restaurantImages[index],
+                    name: restaurantNames[index],
+                    type: "type",
+                    location: "location",
+                    isFavorite: $restaurantIsFavorites[index],
+                )
                 
 //                FullImageRow(imageName: restaurantImages[index],
 //                                  name: restaurantNames[index],
@@ -39,13 +44,14 @@ struct BasicTextImageRow : View {
     
     @State private var showOptions = false
     @State private var showError = false
-
     
     var imageName: String
     var name:String
     var type:String
     var location:String
     
+    @Binding var isFavorite: Bool
+
     var body: some View {
         
         HStack(alignment: .top, spacing: 20) {
@@ -69,6 +75,13 @@ struct BasicTextImageRow : View {
                 
             }
             
+            if isFavorite {
+                Spacer()
+                
+                Image(systemName: "heart.fill")
+                    .foregroundStyle(.yellow)
+            }
+            
         }
         .onTapGesture {
             showOptions.toggle()
@@ -82,7 +95,7 @@ struct BasicTextImageRow : View {
             }
             
             Button ("Mark as favorite") {
-                
+                isFavorite.toggle()
             }
         }
         .alert("Not yet available",
