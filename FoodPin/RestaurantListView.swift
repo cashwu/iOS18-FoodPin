@@ -38,6 +38,8 @@ struct RestaurantListView: View {
 struct BasicTextImageRow : View {
     
     @State private var showOptions = false
+    @State private var showError = false
+
     
     var imageName: String
     var name:String
@@ -76,12 +78,22 @@ struct BasicTextImageRow : View {
                             titleVisibility: .visible) {
             
             Button ("Reserve a table") {
-                
+                self.showError.toggle()
             }
             
             Button ("Mark as favorite") {
                 
             }
+        }
+        .alert("Not yet available",
+               isPresented: $showError) {
+            
+            Button("OK") {
+                
+            }
+            
+        } message: {
+            Text("Sorry, this feature is not availabe yet, Please retry latter.")
         }
     }
 
