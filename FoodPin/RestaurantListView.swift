@@ -17,13 +17,27 @@ struct RestaurantListView: View {
         List {
             ForEach(restaurantNames.indices, id:\.self) { index in
                 
-                HStack {
+                HStack(alignment: .top, spacing: 20) {
                     
                     Image(restaurantImages[index])
                         .resizable()
-                        .frame(width: 40, height: 40)
+                        .frame(width: 120, height: 118)
                     
-                    Text(restaurantNames[index])
+                    
+                    VStack(alignment: .leading) {
+                        
+                        Text(restaurantNames[index])
+                            .font(.system(.title2, design: .rounded))
+                        
+                        Text("Type")
+                            .font(.system(.body, design: .rounded))
+                        
+                        Text("Location")
+                            .font(.system(.subheadline, design: .rounded))
+                            .foregroundStyle(.gray)
+
+                    }
+                    
                 }
                 
             }
