@@ -18,15 +18,15 @@ struct RestaurantListView: View {
             ForEach(restaurantNames.indices, id:\.self) { index in
                 
                 
-//                BasicTextImageRow(imageName: restaurantImages[index],
-//                                  name: restaurantNames[index],
-//                                  type: "type",
-//                                  location: "location")
-                
-                FullImageRow(imageName: restaurantImages[index],
+                BasicTextImageRow(imageName: restaurantImages[index],
                                   name: restaurantNames[index],
                                   type: "type",
                                   location: "location")
+                
+//                FullImageRow(imageName: restaurantImages[index],
+//                                  name: restaurantNames[index],
+//                                  type: "type",
+//                                  location: "location")
             }
             
             .listRowSeparator(.hidden)
@@ -36,6 +36,8 @@ struct RestaurantListView: View {
 }
 
 struct BasicTextImageRow : View {
+    
+    @State private var showOptions = false
     
     var imageName: String
     var name:String
@@ -65,6 +67,21 @@ struct BasicTextImageRow : View {
                 
             }
             
+        }
+        .onTapGesture {
+            showOptions.toggle()
+        }
+        .confirmationDialog("What do you want to do ?",
+                            isPresented: $showOptions,
+                            titleVisibility: .visible) {
+            
+            Button ("Reserve a table") {
+                
+            }
+            
+            Button ("Mark as favorite") {
+                
+            }
         }
     }
 
