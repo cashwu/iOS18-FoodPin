@@ -154,3 +154,26 @@ struct FullImageRow : View {
 #Preview {
     RestaurantListView()
 }
+
+#Preview("BasicTextImageRow", traits: .sizeThatFitsLayout) {
+    
+    BasicTextImageRow(
+        imageName: "cafedeadend",
+        name: "CafeDeadend",
+        type: "Cafe",
+        location: "Hong Kong",
+        isFavorite: .constant(true),
+    )
+    
+}
+
+#Preview("FullImageRow", traits: .sizeThatFitsLayout) {
+    
+    FullImageRow(
+        imageName: "cafedeadend",
+        name: "CafeDeadend",
+        type: "Cafe",
+        location: "Hong Kong",
+    )
+    
+}
