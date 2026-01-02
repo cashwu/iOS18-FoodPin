@@ -40,12 +40,10 @@ struct RestaurantListView: View {
             ForEach(restaurants.indices, id:\.self) { index in
                 
                 BasicTextImageRow(restaurant: $restaurants[index])
-                
-//                FullImageRow(imageName: restaurantImages[index],
-//                                  name: restaurantNames[index],
-//                                  type: "type",
-//                                  location: "location")
             }
+            .onDelete(perform: { indexSet in
+                restaurants.remove(atOffsets:indexSet)
+            })
             
             .listRowSeparator(.hidden)
         }
