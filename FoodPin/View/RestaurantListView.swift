@@ -55,7 +55,10 @@ struct RestaurantListView: View {
 
 struct BasicTextImageRow : View {
     
+    // MARK: - Binding
+    
     @Binding var restaurant: Restaurant
+    
     
     @State private var showOptions = false
     @State private var showError = false
