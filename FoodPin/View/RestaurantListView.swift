@@ -107,19 +107,24 @@ struct BasicTextImageRow : View {
             }
             
         }
-        .onTapGesture {
-            showOptions.toggle()
-        }
-        .confirmationDialog("What do you want to do ?",
-                            isPresented: $showOptions,
-                            titleVisibility: .visible) {
-            
-            Button ("Reserve a table") {
+        .contextMenu{
+           
+            Button(action: {
                 self.showError.toggle()
+            }) {
+                HStack{
+                    Text("Reserve a table")
+                    Image(systemName: "phone")
+                }
             }
             
-            Button ("Mark as favorite") {
-                restaurant.isFavorite.toggle()
+            Button(action: {
+                self.restaurant.isFavorite.toggle()
+            }) {
+                HStack {
+                    Text(restaurant.isFavorite ? "Remove from favorites" : "Mark as favorite")
+                    Image(systemName: "heart")
+                }
             }
         }
         .alert("Not yet available",
