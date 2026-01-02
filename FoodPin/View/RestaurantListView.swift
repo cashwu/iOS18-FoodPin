@@ -165,8 +165,8 @@ struct FullImageRow : View {
 
 #Preview("BasicTextImageRow", traits: .sizeThatFitsLayout) {
     
-    BasicTextImageRow(restaurant: Restaurant(name: "Cafe Deadend", type: "Coffee & Tea Shop", location: "Hong Kong", image: "cafedeadend"),
-    )
+    BasicTextImageRow(restaurant: .constant(Restaurant(name: "Cafe Deadend", type: "Coffee & Tea Shop", location: "Hong Kong", image: "cafedeadend"),
+    ))
     
 }
 
