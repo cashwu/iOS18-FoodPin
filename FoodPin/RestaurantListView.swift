@@ -9,35 +9,37 @@ import SwiftUI
 
 struct RestaurantListView: View {
     
-    var restaurantNames = ["Cafe Deadend", "Homei", "Teakha", "Cafe Loisl", "Petite Oyster", "For Kee Restaurant", "Po's Atelier", "Bourke Street Bakery", "Haigh's Chocolate", "Palomino Espresso", "Upstate", "Traif", "Graham Avenue Meats", "Waffle & Wolf", "Five Leaves", "Cafe Lore", "Confessional", "Barrafina", "Donostia", "Royal Oak", "CASK Pub and Kitchen"]
-    
-    var restaurantImages = ["cafedeadend", "homei", "teakha", "cafeloisl", "petiteoyster", "forkee", "posatelier", "bourkestreetbakery", "haigh", "palomino", "upstate", "traif", "graham", "waffleandwolf", "fiveleaves", "cafelore", "confessional", "barrafina", "donostia", "royaloak", "cask"]
-    
-    var restaurantLocations = [
-    "Hong Kong", "Hong Kong", "Hong Kong", "Hong Kong", "Hong Kong", "Hong Kong", "Hong Kong",
-    "Hong Kong", "Hong Kong", "Sydney", "Sydney", "Sydney", "New York", "New York", "New York",
-    "New York", "New York", "New York", "New York", "London", "London", "London"
-    ]
-    var restaurantTypes = [
-    "Coffee & Tea Shop", "Cafe", "Tea House", "Austrian / Causual Dine", "French", "Bakery", "Bakery",
-    "Chocolate", "Cafe", "American", "Seafood", "American", "American", "Breakfast & Brunch",
-    "Coffee & Tea", "Coffee & Tea", "Latin American", "Spanish", "Spanish", "Spanish", "British", "Thai"
-    ]
-    
     @State var restaurantIsFavorites = Array(repeating: false, count: 21)
+    
+    @State var restaurants = [
+        Restaurant(name: "Cafe Deadend", type: "Coffee & Tea Shop", location: "Hong Kong", image: "cafedeadend"),
+        Restaurant(name: "Homei", type: "Cafe", location: "Hong Kong", image: "homei"),
+        Restaurant(name: "Teakha", type: "Tea House", location: "Hong Kong", image: "teakha"),
+        Restaurant(name: "Cafe Loisl", type: "Austrian / Causual Dine", location: "Hong Kong", image: "cafeloisl"),
+        Restaurant(name: "Petite Oyster", type: "French", location: "Hong Kong", image: "petiteoyster"),
+        Restaurant(name: "For Kee Restaurant", type: "Bakery", location: "Hong Kong", image: "forkee"),
+        Restaurant(name: "Po's Atelier", type: "Bakery", location: "Hong Kong", image: "posatelier"),
+        Restaurant(name: "Bourke Street Bakery", type: "Chocolate", location: "Hong Kong", image: "bourkestreetbakery"),
+        Restaurant(name: "Haigh's Chocolate", type: "Cafe", location: "Hong Kong", image: "haigh"),
+        Restaurant(name: "Palomino Espresso", type: "American", location: "Sydney", image: "palomino"),
+        Restaurant(name: "Upstate", type: "Seafood", location: "Sydney", image: "upstate"),
+        Restaurant(name: "Traif", type: "American", location: "Sydney", image: "traif"),
+        Restaurant(name: "Graham Avenue Meats", type: "American", location: "New York", image: "graham"),
+        Restaurant(name: "Waffle & Wolf", type: "Breakfast & Brunch", location: "New York", image: "waffleandwolf"),
+        Restaurant(name: "Five Leaves", type: "Coffee & Tea", location: "New York", image: "fiveleaves"),
+        Restaurant(name: "Cafe Lore", type: "Coffee & Tea", location: "New York", image: "cafelore"),
+        Restaurant(name: "Confessional", type: "Latin American", location: "New York", image: "confessional"),
+        Restaurant(name: "Barrafina", type: "Spanish", location: "New York", image: "barrafina"),
+        Restaurant(name: "Donostia", type: "Spanish", location: "New York", image: "donostia"),
+        Restaurant(name: "Royal Oak", type: "Spanish", location: "London", image: "royaloak"),
+        Restaurant(name: "CASK Pub and Kitchen", type: "British", location: "London", image: "cask")
+    ]
     
     var body: some View {
         List {
-            ForEach(restaurantNames.indices, id:\.self) { index in
+            ForEach(restaurants.indices, id:\.self) { index in
                 
-                
-                BasicTextImageRow(
-                    imageName: restaurantImages[index],
-                    name: restaurantNames[index],
-                    type: restaurantTypes[index],
-                    location: restaurantLocations[index],
-                    isFavorite: $restaurantIsFavorites[index],
-                )
+                BasicTextImageRow(restaurant: $restaurants[index])
                 
 //                FullImageRow(imageName: restaurantImages[index],
 //                                  name: restaurantNames[index],
@@ -53,40 +55,35 @@ struct RestaurantListView: View {
 
 struct BasicTextImageRow : View {
     
+    @Binding var restaurant: Restaurant
+    
     @State private var showOptions = false
     @State private var showError = false
-    
-    var imageName: String
-    var name:String
-    var type:String
-    var location:String
-    
-    @Binding var isFavorite: Bool
 
     var body: some View {
         
         HStack(alignment: .top, spacing: 20) {
             
-            Image(imageName)
+            Image(restaurant.image)
                 .resizable()
                 .frame(width: 120, height: 118)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
             
             VStack(alignment: .leading) {
                 
-                Text(name)
+                Text(restaurant.name)
                     .font(.system(.title2, design: .rounded))
                 
-                Text(type)
+                Text(restaurant.type)
                     .font(.system(.body, design: .rounded))
                 
-                Text(location)
+                Text(restaurant.location)
                     .font(.system(.subheadline, design: .rounded))
                     .foregroundStyle(.gray)
                 
             }
             
-            if isFavorite {
+            if restaurant.isFavorite {
                 Spacer()
                 
                 Image(systemName: "heart.fill")
@@ -106,7 +103,7 @@ struct BasicTextImageRow : View {
             }
             
             Button ("Mark as favorite") {
-                isFavorite.toggle()
+                restaurant.isFavorite.toggle()
             }
         }
         .alert("Not yet available",
@@ -168,12 +165,7 @@ struct FullImageRow : View {
 
 #Preview("BasicTextImageRow", traits: .sizeThatFitsLayout) {
     
-    BasicTextImageRow(
-        imageName: "cafedeadend",
-        name: "CafeDeadend",
-        type: "Cafe",
-        location: "Hong Kong",
-        isFavorite: .constant(true),
+    BasicTextImageRow(restaurant: Restaurant(name: "Cafe Deadend", type: "Coffee & Tea Shop", location: "Hong Kong", image: "cafedeadend"),
     )
     
 }
