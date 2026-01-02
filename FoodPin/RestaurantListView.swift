@@ -13,6 +13,17 @@ struct RestaurantListView: View {
     
     var restaurantImages = ["cafedeadend", "homei", "teakha", "cafeloisl", "petiteoyster", "forkee", "posatelier", "bourkestreetbakery", "haigh", "palomino", "upstate", "traif", "graham", "waffleandwolf", "fiveleaves", "cafelore", "confessional", "barrafina", "donostia", "royaloak", "cask"]
     
+    var restaurantLocations = [
+    "Hong Kong", "Hong Kong", "Hong Kong", "Hong Kong", "Hong Kong", "Hong Kong", "Hong Kong",
+    "Hong Kong", "Hong Kong", "Sydney", "Sydney", "Sydney", "New York", "New York", "New York",
+    "New York", "New York", "New York", "New York", "London", "London", "London"
+    ]
+    var restaurantTypes = [
+    "Coffee & Tea Shop", "Cafe", "Tea House", "Austrian / Causual Dine", "French", "Bakery", "Bakery",
+    "Chocolate", "Cafe", "American", "Seafood", "American", "American", "Breakfast & Brunch",
+    "Coffee & Tea", "Coffee & Tea", "Latin American", "Spanish", "Spanish", "Spanish", "British", "Thai"
+    ]
+    
     @State var restaurantIsFavorites = Array(repeating: false, count: 21)
     
     var body: some View {
@@ -23,8 +34,8 @@ struct RestaurantListView: View {
                 BasicTextImageRow(
                     imageName: restaurantImages[index],
                     name: restaurantNames[index],
-                    type: "type",
-                    location: "location",
+                    type: restaurantTypes[index],
+                    location: restaurantLocations[index],
                     isFavorite: $restaurantIsFavorites[index],
                 )
                 
