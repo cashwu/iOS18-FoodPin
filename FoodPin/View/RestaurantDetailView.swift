@@ -79,27 +79,30 @@ struct RestaurantDetailView: View {
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
-           ToolbarItem(placement: .navigationBarTrailing) {
+           ToolbarItem(placement: .navigationBarLeading) {
                
                Button(action: {
                   dismiss()
                }){
-                   Text("\(Image(systemName: "chevron.left")) \(restaurant.name)")
+                   Text("\(Image(systemName: "chevron.left"))")
                }
             }
         }
+        .ignoresSafeArea()
     }
 }
 
 #Preview {
-    RestaurantDetailView(restaurant: Restaurant(
-        name: "Cafe Deadend",
-        type: "Cafe",
-        location: "Hong Kong",
-        phone: "123-456",
-        description: "desc",
-        image: "cafedeadend",
-        isFavorite: true
-        
-    ))
+    NavigationStack {
+        RestaurantDetailView(restaurant: Restaurant(
+            name: "Cafe Deadend",
+            type: "Cafe",
+            location: "Hong Kong",
+            phone: "123-456",
+            description: "desc",
+            image: "cafedeadend",
+            isFavorite: true
+            
+        ))
+    }.tint(.white)
 }
