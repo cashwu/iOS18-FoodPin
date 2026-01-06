@@ -40,7 +40,12 @@ struct RestaurantListView: View {
             List {
                 ForEach(restaurants.indices, id:\.self) { index in
                     
-                    NavigationLink(destination: RestaurantDetailView(restaurant: restaurants[index])) {
+                    ZStack(alignment: .leading) {
+                        NavigationLink(destination: RestaurantDetailView(restaurant: restaurants[index])) {
+                            EmptyView()
+                        }
+                        .opacity(0)
+                        
                         BasicTextImageRow(restaurant: $restaurants[index])
                     }
                     
