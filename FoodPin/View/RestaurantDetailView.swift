@@ -52,6 +52,13 @@ struct RestaurantDetailView: View {
 
 #Preview {
     RestaurantDetailView(restaurant: Restaurant(
-        name: "Cafe Deadend", type: "Cafe", location: "Hong Kong", image: "cafedeadend", isFavorite: true
+        name: "Cafe Deadend",
+        type: "Cafe",
+        location: "Hong Kong",
+        phone: "123-456",
+        description: "desc",
+        image: "cafedeadend",
+        isFavorite: true
+        
     ))
 }
