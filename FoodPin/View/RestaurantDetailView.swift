@@ -75,10 +75,17 @@ struct RestaurantDetailView: View {
                 .padding(.horizontal)
                 
                 
-                MapView(location: "台中市太平區太興路18號")
-                    .frame(height: 200)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .padding()
+                NavigationLink (
+                    destination:
+                        MapView(location: "台中市太平區太興路18號")
+                        .toolbarBackground(.hidden, for: .navigationBar)
+                        .edgesIgnoringSafeArea(.all)
+                ) {
+                    MapView(location: "台中市太平區太興路18號")
+                        .frame(height: 200)
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .padding()
+                }
             }
             
             
@@ -110,6 +117,7 @@ struct RestaurantDetailView: View {
             image: "cafedeadend",
             isFavorite: true
         ))
+        .toolbarBackground(.hidden, for: .navigationBar)
         .environment(\.dynamicTypeSize, .xxxLarge)
     }.tint(.white)
 }
