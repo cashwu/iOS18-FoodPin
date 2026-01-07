@@ -73,7 +73,14 @@ struct RestaurantDetailView: View {
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                 }
                 .padding(.horizontal)
+                
+                
+                MapView(location: "台中市太平區太興路18號")
+                    .frame(height: 200)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .padding()
             }
+            
             
             
         }
