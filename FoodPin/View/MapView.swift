@@ -16,7 +16,7 @@ struct MapView: View {
     @State private var markerLocation = CLLocation()
     
     var body: some View {
-        Map(position: $position) {
+        Map(position: $position, interactionModes: []) {
             
             Marker("Here", coordinate: markerLocation.coordinate)
                 .tint(.purple)
