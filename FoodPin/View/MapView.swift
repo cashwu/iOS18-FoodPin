@@ -10,18 +10,43 @@ import MapKit
 
 struct MapView: View {
     
-    let location : String = ""
+    let location: String
     
-    @State private var region : MKCoordinateRegion = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(latitude: 51.510357, longitude: -0.116773),
-        span: MKCoordinateSpan(latitudeDelta: 1.0, longitudeDelta: 1.0)
-    )
+    @State private var position : MapCameraPosition = .automatic
     
     var body: some View {
-        Map(initialPosition: .region(region))
+        Map(position: $position)
+            .task {
+                convertAddress(location: location)
+            }
+    }
+    
+    private func convertAddress(location: String) {
+        
+        let geocoder = CLGeocoder()
+        
+        geocoder.geocodeAddressString(location, completionHandler : { placemarks, error in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            guard let placemarks = placemarks,
+            let location = placemarks[0].location else {
+                return
+            }
+            
+            let region = MKCoordinateRegion(
+                center: location.coordinate,
+                span: MKCoordinateSpan(latitudeDelta: 0.0015, longitudeDelta: 0.0015)
+            )
+                
+            self.position = .region(region)
+        })
+        
     }
 }
 
 #Preview {
-    MapView()
+    MapView(location: "台中市太平區太興路18號")
 }
