@@ -13,9 +13,14 @@ struct MapView: View {
     let location: String
     
     @State private var position : MapCameraPosition = .automatic
+    @State private var markerLocation = CLLocation()
     
     var body: some View {
-        Map(position: $position)
+        Map(position: $position) {
+            
+            Marker("Here", coordinate: markerLocation.coordinate)
+                .tint(.purple)
+        }
             .task {
                 convertAddress(location: location)
             }
@@ -35,6 +40,8 @@ struct MapView: View {
             let location = placemarks[0].location else {
                 return
             }
+            
+            self.markerLocation = location
             
             let region = MKCoordinateRegion(
                 center: location.coordinate,
