@@ -8,10 +8,22 @@
 import SwiftUI
 
 struct ReviewView: View {
+    
+    var restaurant: Restaurant
+    
     var body: some View {
         
         ZStack {
+            
+            Image(restaurant.image)
+                .resizable()
+                .scaledToFill()
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .ignoresSafeArea()
+            
             Color.black
+                .opacity(0.6)
+                .background(.ultraThinMaterial)
                 .ignoresSafeArea()
             
             HStack {
@@ -55,5 +67,13 @@ struct ReviewView: View {
 }
 
 #Preview {
-    ReviewView()
+    ReviewView(restaurant: Restaurant(
+            name: "Cafe Deadend",
+            type: "Cafe",
+            location: "Hong Kong",
+            phone: "123-456",
+            description: "desc",
+            image: "cafedeadend",
+            isFavorite: true
+        ))
 }
