@@ -15,32 +15,33 @@ struct Restaurant {
     var description: String = ""
     var image: String = ""
     var isFavorite: Bool = false
+    
+    enum Rating : String, CaseIterable {
+        
+        case awesome
+        case good
+        case okay
+        case bad
+        case terible
+        
+        var image : String {
+            switch self {
+            case .awesome:
+                return "love"
+            case .good:
+                return "cool"
+            case .okay:
+                return "happy"
+            case .bad:
+                return "sad"
+            case .terible:
+                return "angry"
+            }
+        }
+        
+    }
 }
 
-enum Rating : String, CaseIterable {
-    
-    case awesome
-    case good
-    case okay
-    case bad
-    case terible
-    
-    var image : String {
-        switch self {
-        case .awesome: 
-            return "love"
-        case .good:
-            return "cool"
-        case .okay:
-            return "happy"
-        case .bad:
-            return "sad"
-        case .terible:
-            return "angry"
-        }
-    }
-    
-}
 
 //struct Restaurant {
 //    var name: String
