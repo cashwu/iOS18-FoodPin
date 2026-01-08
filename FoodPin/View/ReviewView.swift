@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ReviewView: View {
     
+    @Binding var isDisplayed: Bool
     var restaurant: Restaurant
     
     var body: some View {
@@ -30,7 +31,11 @@ struct ReviewView: View {
                 Spacer()
                 
                 VStack {
-                    Button(action: {}) {
+                    Button(action: {
+                        withAnimation(.easeOut(duration: 0.3)) {
+                            self.isDisplayed = false
+                        }
+                    }) {
                         Image(systemName: "xmark")
                             .font(.system(size: 30))
                             .foregroundColor(.white)
@@ -67,7 +72,7 @@ struct ReviewView: View {
 }
 
 #Preview {
-    ReviewView(restaurant: Restaurant(
+    ReviewView(isDisplayed: .constant(true), restaurant: Restaurant(
             name: "Cafe Deadend",
             type: "Cafe",
             location: "Hong Kong",

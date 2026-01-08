@@ -124,7 +124,7 @@ struct RestaurantDetailView: View {
             
             self.showReview ?
                  ZStack {
-                    ReviewView(restaurant: restaurant)
+                     ReviewView(isDisplayed: $showReview, restaurant: restaurant)
                 }
             : nil
             
