@@ -6,15 +6,18 @@
 //
 
 import Foundation
+import Combine
 
-struct Restaurant {
-    var name: String = ""
-    var type: String = ""
-    var location: String = ""
-    var phone: String = ""
-    var description: String = ""
-    var image: String = ""
-    var isFavorite: Bool = false
+class Restaurant : ObservableObject {
+    
+    @Published var name: String = ""
+    @Published var type: String = ""
+    @Published var location: String = ""
+    @Published var phone: String = ""
+    @Published var description: String = ""
+    @Published var image: String = ""
+    @Published var isFavorite: Bool = false
+    @Published var rating: Rating?
     
     enum Rating : String, CaseIterable {
         
