@@ -43,6 +43,17 @@ class Restaurant : ObservableObject {
         }
         
     }
+    
+    init(name: String, type: String, location: String, phone: String = "123", description: String = "desc", image: String, isFavorite: Bool = false, rating: Rating? = nil) {
+        self.name = name
+        self.type = type
+        self.location = location
+        self.phone = phone
+        self.description = description
+        self.image = image
+        self.isFavorite = isFavorite
+        self.rating = rating
+    }
 }
 
 

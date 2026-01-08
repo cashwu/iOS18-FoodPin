@@ -34,21 +34,35 @@ struct RestaurantDetailView: View {
                                 .foregroundColor(.white)
                                 .padding(.top, 40)
                             
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text(restaurant.name)
-                                    .font(.custom("Nunito-Regular", size: 35, relativeTo: .largeTitle))
-                                    .bold()
+                            HStack(alignment: .bottom) {
+                                VStack(alignment: .leading, spacing: 5) {
+                                    Text(restaurant.name)
+                                        .font(.custom("Nunito-Regular", size: 35, relativeTo: .largeTitle))
+                                        .bold()
+                                    
+                                    Text(restaurant.type)
+                                        .font(.system(.headline, design: .rounded))
+                                        .padding(.all, 5)
+                                        .background(Color.black)
+                                }
+                                .frame(minWidth: 0, maxWidth: .infinity,
+                                       minHeight: 0, maxHeight: .infinity,
+                                       alignment: .bottomLeading)
+                                .foregroundStyle(.white)
+                                .padding()
                                 
-                                Text(restaurant.type)
-                                    .font(.system(.headline, design: .rounded))
-                                    .padding(.all, 5)
-                                    .background(Color.black)
+                                
+                                if let rating = restaurant.rating, !showReview {
+                                    
+                                    Image(rating.image)
+                                        .resizable()
+                                        .frame(width: 60, height: 60)
+                                        .padding([.bottom, .trailing])
+                                        .transition(.scale)
+                                    
+                                }
                             }
-                            .frame(minWidth: 0, maxWidth: .infinity,
-                                   minHeight: 0, maxHeight: .infinity,
-                                   alignment: .bottomLeading)
-                            .foregroundStyle(.white)
-                            .padding()
+                            .animation(.spring(response: 0.2, dampingFraction: 0.3, blendDuration: 0.3), value: restaurant.rating)
                         }
                     }
                 
@@ -142,7 +156,7 @@ struct RestaurantDetailView: View {
             phone: "123-456",
             description: "desc",
             image: "cafedeadend",
-            isFavorite: true
+            isFavorite: true,
         ))
         .toolbarBackground(.hidden, for: .navigationBar)
         .environment(\.dynamicTypeSize, .xxxLarge)
