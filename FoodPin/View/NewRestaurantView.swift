@@ -14,28 +14,37 @@ struct NewRestaurantView: View {
     var body: some View {
         
         
-//        VStack(alignment: .leading) {
-//            
-//            
-//            Text("NAME")
-//                .font(.system(.headline, design: .rounded))
-//                .foregroundStyle(Color(.darkGray))
-//                .padding(.horizontal, 10)
-//            
-//            TextField("Fill in the restaurant name", text: $restaurantName)
-//                .font(.system(size: 20, weight: .semibold, design: .rounded))
-//                .padding(.horizontal)
-//                .padding(10)
-//                .overlay(
-//                    RoundedRectangle(cornerRadius: 5)
-//                        .stroke(Color(.systemGray5), lineWidth: 1)
-//                )
-//                .padding(.vertical, 10)
-//        }
-        
-        FormTextField(label: "Name", 
-                      placeholder: "Fill in the restaurant name",
-                      value: $restaurantName)
+        NavigationStack {
+            
+            ScrollView {
+                
+                VStack {
+                    
+                    FormTextField(label: "Name",
+                                  placeholder: "Fill in the restaurant name",
+                                  value: .constant(""))
+
+                    FormTextField(label: "type",
+                                  placeholder: "Fill in the restaurant type",
+                                  value: .constant(""))
+                    
+                    FormTextField(label: "address",
+                                  placeholder: "Fill in the restaurant address",
+                                  value: .constant(""))
+                    
+                    FormTextField(label: "phone",
+                                  placeholder: "Fill in the restaurant phone",
+                                  value: .constant(""))
+                    
+                    
+                    FormTextView(label: "Description", value: .constant(""), height: 100)
+                        
+                }
+                .padding()
+                
+            }
+            
+        }
 
     }
 }
