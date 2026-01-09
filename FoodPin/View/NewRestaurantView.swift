@@ -11,6 +11,12 @@ struct NewRestaurantView: View {
     
     @State var restaurantName = ""
     
+    @State private var restaurantImage: UIImage? = UIImage(named: "newphoto")
+    
+    @State private var showPhotoOptions = false
+    
+    @State private var photoSource: PhotoSource?
+    
     var body: some View {
         
         
@@ -19,6 +25,18 @@ struct NewRestaurantView: View {
             ScrollView {
                 
                 VStack {
+                    
+                    Image(uiImage: restaurantImage ?? UIImage(named: "newphoto")!)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .frame(height: 200)
+                        .background(Color(.systemGray6))
+                        .clipShape(RoundedRectangle(cornerRadius: 20.0))
+                        .padding(.bottom)
+                        .onTapGesture {
+                            self.showPhotoOptions.toggle()
+                        }
                     
                     FormTextField(label: "Name",
                                   placeholder: "Fill in the restaurant name",
@@ -44,8 +62,35 @@ struct NewRestaurantView: View {
                 
             }
             
+            .navigationTitle("New Restaurant")
+            
         }
+        .confirmationDialog("Choose your photo source",
+                            isPresented: $showPhotoOptions,
+                            titleVisibility: .visible) {
+            
+            Button("Camera") {
+                self.photoSource = .camera
+            }
+            
+            Button("Photo Library") {
+                self.photoSource = .photoLibrary
+            }
+            
+        }
+        .fullScreenCover(item: $photoSource) { source in
+            
+            switch source {
+                
+            case .photoLibrary: ImagePicker(sourceType: .photoLibrary, image: $restaurantImage)
+                    .ignoresSafeArea()
+                
+            case .camera: ImagePicker(sourceType: .camera, image: $restaurantImage)
+                    .ignoresSafeArea()
 
+            }
+            
+        }
     }
 }
 
@@ -108,6 +153,17 @@ struct FormTextView : View {
 
     }
 }
+
+enum PhotoSource : Identifiable {
+    case photoLibrary
+    case camera
+    
+    var id: Int {
+        hashValue
+    }
+}
+
+
 #Preview {
     NewRestaurantView()
 }
