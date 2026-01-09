@@ -9,6 +9,8 @@ import SwiftUI
 
 struct NewRestaurantView: View {
     
+    @Environment(\.dismiss) var dismiss
+    
     @State var restaurantName = ""
     
     @State private var restaurantImage: UIImage? = UIImage(named: "newphoto")
@@ -64,6 +66,31 @@ struct NewRestaurantView: View {
             
             .navigationTitle("New Restaurant")
             
+            
+            .toolbar {
+                
+                ToolbarItem(placement: .navigationBarLeading) {
+                    
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        
+                        Image(systemName: "xmark")
+                    }
+                    
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    
+                    Text("Save")
+                        .font(.headline)
+                        .foregroundColor(Color("NavigationBarTitle"))
+                    
+                }
+
+                
+            }
+            
         }
         .confirmationDialog("Choose your photo source",
                             isPresented: $showPhotoOptions,
@@ -91,6 +118,7 @@ struct NewRestaurantView: View {
             }
             
         }
+        .tint(.primary)
     }
 }
 
