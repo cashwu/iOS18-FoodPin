@@ -35,6 +35,9 @@ struct RestaurantListView: View {
         Restaurant(name: "CASK Pub and Kitchen", type: "British", location: "London", image: "cask")
     ]
     
+    
+    @State private var showNewRestaurant = false
+    
     var body: some View {
         NavigationStack {
             List {
@@ -77,6 +80,21 @@ struct RestaurantListView: View {
             
             .navigationTitle("FoodPin")
             .navigationBarTitleDisplayMode(.automatic)
+            
+            .toolbar {
+                
+                Button(action: {
+                    
+                    self.showNewRestaurant = true
+                    
+                }) {
+                    Image(systemName: "plus")
+                }
+            }
+            .tint(.primary)
+        }
+        .sheet(isPresented: $showNewRestaurant) {
+           NewRestaurantView()
         }
     }
 }
