@@ -6,34 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct RestaurantListView: View {
     
     @State var restaurantIsFavorites = Array(repeating: false, count: 21)
     
-    @State var restaurants = [
-        Restaurant(name: "Cafe Deadend", type: "Coffee & Tea Shop", location: "Hong Kong", image: "cafedeadend"),
-        Restaurant(name: "Homei", type: "Cafe", location: "Hong Kong", image: "homei"),
-        Restaurant(name: "Teakha", type: "Tea House", location: "Hong Kong", image: "teakha"),
-        Restaurant(name: "Cafe Loisl", type: "Austrian / Causual Dine", location: "Hong Kong", image: "cafeloisl"),
-        Restaurant(name: "Petite Oyster", type: "French", location: "Hong Kong", image: "petiteoyster"),
-        Restaurant(name: "For Kee Restaurant", type: "Bakery", location: "Hong Kong", image: "forkee"),
-        Restaurant(name: "Po's Atelier", type: "Bakery", location: "Hong Kong", image: "posatelier"),
-        Restaurant(name: "Bourke Street Bakery", type: "Chocolate", location: "Hong Kong", image: "bourkestreetbakery"),
-        Restaurant(name: "Haigh's Chocolate", type: "Cafe", location: "Hong Kong", image: "haigh"),
-        Restaurant(name: "Palomino Espresso", type: "American", location: "Sydney", image: "palomino"),
-        Restaurant(name: "Upstate", type: "Seafood", location: "Sydney", image: "upstate"),
-        Restaurant(name: "Traif", type: "American", location: "Sydney", image: "traif"),
-        Restaurant(name: "Graham Avenue Meats", type: "American", location: "New York", image: "graham"),
-        Restaurant(name: "Waffle & Wolf", type: "Breakfast & Brunch", location: "New York", image: "waffleandwolf"),
-        Restaurant(name: "Five Leaves", type: "Coffee & Tea", location: "New York", image: "fiveleaves"),
-        Restaurant(name: "Cafe Lore", type: "Coffee & Tea", location: "New York", image: "cafelore"),
-        Restaurant(name: "Confessional", type: "Latin American", location: "New York", image: "confessional"),
-        Restaurant(name: "Barrafina", type: "Spanish", location: "New York", image: "barrafina"),
-        Restaurant(name: "Donostia", type: "Spanish", location: "New York", image: "donostia"),
-        Restaurant(name: "Royal Oak", type: "Spanish", location: "London", image: "royaloak"),
-        Restaurant(name: "CASK Pub and Kitchen", type: "British", location: "London", image: "cask")
-    ]
+    @Query var restaurants : [Restaurant]
     
     
     @State private var showNewRestaurant = false
@@ -49,7 +28,7 @@ struct RestaurantListView: View {
                         }
                         .opacity(0)
                         
-                        BasicTextImageRow(restaurant: $restaurants[index])
+                        BasicTextImageRow(restaurant: restaurants[index])
                     }
                     
                     
@@ -103,7 +82,7 @@ struct BasicTextImageRow : View {
     
     // MARK: - Binding
     
-    @Binding var restaurant: Restaurant
+    @Bindable var restaurant: Restaurant
     
     
     @State private var showOptions = false
@@ -113,7 +92,7 @@ struct BasicTextImageRow : View {
         
         HStack(alignment: .top, spacing: 20) {
             
-            Image(restaurant.image)
+            Image(uiImage: restaurant.image)
                 .resizable()
                 .frame(width: 120, height: 118)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
@@ -184,15 +163,7 @@ struct BasicTextImageRow : View {
             
             let defaultText = "Just checking in at \(restaurant.name)"
             
-            if let imageToShare = UIImage(named: restaurant.image) {
-                
-                ActivityView(activityItems: [defaultText, imageToShare])
-                
-            } else {
-                
-                ActivityView(activityItems: [defaultText])
-
-            }
+            ActivityView(activityItems: [defaultText, restaurant.image])
         }
     }
 
@@ -243,8 +214,8 @@ struct FullImageRow : View {
 
 #Preview("BasicTextImageRow", traits: .sizeThatFitsLayout) {
     
-    BasicTextImageRow(restaurant: .constant(Restaurant(name: "Cafe Deadend", type: "Coffee & Tea Shop", location: "Hong Kong", image: "cafedeadend"),
-    ))
+    BasicTextImageRow(restaurant: Restaurant(name: "Cafe Deadend", type: "Coffee & Tea Shop", location: "Hong Kong", image: UIImage(named: "cafedeadend")!, isFavorite: true),
+    )
     
 }
 
