@@ -15,9 +15,9 @@ struct RestaurantListView: View {
     @Query var restaurants : [Restaurant]
     
     @Environment(\.modelContext) private var modelContext
-    
-    
     @State private var showNewRestaurant = false
+    
+    @State private var searchText = ""
     
     var body: some View {
         NavigationStack {
@@ -67,6 +67,7 @@ struct RestaurantListView: View {
         .sheet(isPresented: $showNewRestaurant) {
            NewRestaurantView()
         }
+        .searchable(text: $searchText, prompt: "Search restaurants ...")
     }
     
     private func deleteRecord(indexSet: IndexSet) {
