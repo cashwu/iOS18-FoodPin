@@ -19,7 +19,7 @@ struct RestaurantDetailView: View {
         ScrollView {
             
             VStack(alignment: .leading) {
-                Image(restaurant.image)
+                Image(uiImage : restaurant.image)
                     .resizable()
                     .scaledToFill()
                     .frame(minWidth: 0, idealWidth: .infinity)
@@ -155,7 +155,7 @@ struct RestaurantDetailView: View {
             location: "Hong Kong",
             phone: "123-456",
             description: "desc",
-            image: "cafedeadend",
+            image: UIImage(named: "cafedeadend")!,
             isFavorite: true,
         ))
         .toolbarBackground(.hidden, for: .navigationBar)
