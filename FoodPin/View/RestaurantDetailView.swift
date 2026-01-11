@@ -66,7 +66,7 @@ struct RestaurantDetailView: View {
                         }
                     }
                 
-                Text(restaurant.description)
+                Text(restaurant.summary)
                     .padding()
                 
                 
