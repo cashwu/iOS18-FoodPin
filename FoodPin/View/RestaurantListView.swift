@@ -75,6 +75,15 @@ struct RestaurantListView: View {
                     isPresented: $isSearchActive,
                     placement: .navigationBarDrawer(displayMode: .always),
                     prompt: "Search restaurants ...")
+        .searchSuggestions {
+//            Text("Cafe")
+//            Text("Thai")
+            
+            if searchText.isEmpty {
+                Text("Cafe").searchCompletion("Cafe")
+                Text("Thai").searchCompletion("Thai")
+            }
+        }
         .onChange(of: searchText) { oldValue, newValue in
             
 //            if !newValue.isEmpty {
