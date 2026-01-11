@@ -14,6 +14,8 @@ struct RestaurantListView: View {
     
     @Query var restaurants : [Restaurant]
     
+    @Environment(\.modelContext) private var modelContext
+    
     
     @State private var showNewRestaurant = false
     
@@ -49,9 +51,7 @@ struct RestaurantListView: View {
                     //                            .tint(.orange)
                     //                        }
                 }
-                .onDelete(perform: { indexSet in
-                    restaurants.remove(atOffsets:indexSet)
-                })
+                .onDelete(perform: deleteRecord)
                 
                 .listRowSeparator(.hidden)
             }
@@ -75,6 +75,15 @@ struct RestaurantListView: View {
         .sheet(isPresented: $showNewRestaurant) {
            NewRestaurantView()
         }
+    }
+    
+    private func deleteRecord(indexSet: IndexSet) {
+        
+        for index in indexSet {
+            let itemToDelete = restaurants[index]
+            modelContext.delete(itemToDelete)
+        }
+        
     }
 }
 
