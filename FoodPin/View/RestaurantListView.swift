@@ -67,7 +67,9 @@ struct RestaurantListView: View {
         .sheet(isPresented: $showNewRestaurant) {
            NewRestaurantView()
         }
-        .searchable(text: $searchText, prompt: "Search restaurants ...")
+        .searchable(text: $searchText,
+                    placement: .navigationBarDrawer(displayMode: .always),
+                    prompt: "Search restaurants ...")
     }
     
     private func deleteRecord(indexSet: IndexSet) {
