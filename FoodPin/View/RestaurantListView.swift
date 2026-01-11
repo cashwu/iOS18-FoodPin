@@ -22,38 +22,30 @@ struct RestaurantListView: View {
     var body: some View {
         NavigationStack {
             List {
-                ForEach(restaurants.indices, id:\.self) { index in
-                    
-                    ZStack(alignment: .leading) {
-                        NavigationLink(destination: RestaurantDetailView(restaurant: restaurants[index])) {
-                            EmptyView()
-                        }
-                        .opacity(0)
-                        
-                        BasicTextImageRow(restaurant: restaurants[index])
-                    }
-                    
-                    
-                    //                    BasicTextImageRow(restaurant: $restaurants[index])
-                    //                        .swipeActions(edge:.leading,allowsFullSwipe: false) {
-                    //                            Button {
-                    //
-                    //                            } label: {
-                    //                                Image(systemName: "heart")
-                    //                            }
-                    //                            .tint(.green)
-                    //
-                    //                            Button {
-                    //
-                    //                            } label: {
-                    //                                Image(systemName: "square.and.arrow.up")
-                    //                            }
-                    //                            .tint(.orange)
-                    //                        }
-                }
-                .onDelete(perform: deleteRecord)
                 
-                .listRowSeparator(.hidden)
+                if restaurants.count == 0 {
+                    
+                    Image("emptydata")
+                        .resizable()
+                        .scaledToFit()
+                    
+                } else {
+                    
+                    ForEach(restaurants.indices, id:\.self) { index in
+                        
+                        ZStack(alignment: .leading) {
+                            NavigationLink(destination: RestaurantDetailView(restaurant: restaurants[index])) {
+                                EmptyView()
+                            }
+                            .opacity(0)
+                            
+                            BasicTextImageRow(restaurant: restaurants[index])
+                        }
+                        
+                    }
+                    .onDelete(perform: deleteRecord)
+                    .listRowSeparator(.hidden)
+                }
             }
             .listStyle(.plain)
             
