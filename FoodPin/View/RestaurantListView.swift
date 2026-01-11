@@ -18,6 +18,8 @@ struct RestaurantListView: View {
     @State private var showNewRestaurant = false
     
     @State private var searchText = ""
+    @State private var searchResult: [Restaurant] = []
+    @State private var isSearchActive = false
     
     var body: some View {
         NavigationStack {
@@ -31,15 +33,17 @@ struct RestaurantListView: View {
                     
                 } else {
                     
-                    ForEach(restaurants.indices, id:\.self) { index in
+                    let listItems = isSearchActive ? searchResult : restaurants
+                    
+                    ForEach(listItems.indices, id:\.self) { index in
                         
                         ZStack(alignment: .leading) {
-                            NavigationLink(destination: RestaurantDetailView(restaurant: restaurants[index])) {
+                            NavigationLink(destination: RestaurantDetailView(restaurant: listItems[index])) {
                                 EmptyView()
                             }
                             .opacity(0)
                             
-                            BasicTextImageRow(restaurant: restaurants[index])
+                            BasicTextImageRow(restaurant: listItems[index])
                         }
                         
                     }
@@ -68,8 +72,27 @@ struct RestaurantListView: View {
            NewRestaurantView()
         }
         .searchable(text: $searchText,
+                    isPresented: $isSearchActive,
                     placement: .navigationBarDrawer(displayMode: .always),
                     prompt: "Search restaurants ...")
+        .onChange(of: searchText) { oldValue, newValue in
+            
+//            if !newValue.isEmpty {
+//                searchResult = restaurants.filter {
+//                    $0.name.contains(newValue)
+//                }
+//            }
+            
+            let predicate = #Predicate<Restaurant> {
+                $0.name.localizedStandardContains(newValue)
+            }
+            
+            let descriptor = FetchDescriptor<Restaurant>(predicate: predicate)
+            
+            if let result = try? modelContext.fetch(descriptor) {
+                searchResult = result
+            }
+        }
     }
     
     private func deleteRecord(indexSet: IndexSet) {
