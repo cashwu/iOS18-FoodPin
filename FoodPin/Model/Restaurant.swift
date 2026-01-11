@@ -75,13 +75,15 @@ import SwiftUI
     
     @Attribute(originalName: "rating") var ratingText: Rating.RawValue?
     
-    init(name: String, type: String, location: String, phone: String = "123", description: String = "desc", image: UIImage = UIImage(), isFavorite: Bool = false, rating: Rating? = nil) {
+    init(name: String, type: String, location: String, phone: String = "123", description: String = "desc", image: UIImage? = nil, isFavorite: Bool = false, rating: Rating? = nil) {
         self.name = name
         self.type = type
         self.location = location
         self.phone = phone
         self.summary = description
-        self.image = image
+        if let image = image {
+            self.image = image
+        }
         self.isFavorite = isFavorite
         self.rating = rating
     }

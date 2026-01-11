@@ -6,18 +6,26 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct NewRestaurantView: View {
     
     @Environment(\.dismiss) var dismiss
+    @Environment(\.modelContext) var modelContext
+
+    @Bindable private var restaurantFormViewModel : RestaurantFormViewModel
     
     @State var restaurantName = ""
-    
-    @State private var restaurantImage: UIImage? = UIImage(named: "newphoto")
     
     @State private var showPhotoOptions = false
     
     @State private var photoSource: PhotoSource?
+    
+    init() {
+        let viewModel = RestaurantFormViewModel()
+        viewModel.image = UIImage(named: "newphoto")
+        restaurantFormViewModel = viewModel
+    }
     
     var body: some View {
         
@@ -28,7 +36,7 @@ struct NewRestaurantView: View {
                 
                 VStack {
                     
-                    Image(uiImage: restaurantImage ?? UIImage(named: "newphoto")!)
+                    Image(uiImage: restaurantFormViewModel.image ?? UIImage(named: "newphoto") ?? UIImage())
                         .resizable()
                         .scaledToFill()
                         .frame(minWidth: 0, maxWidth: .infinity)
@@ -42,22 +50,22 @@ struct NewRestaurantView: View {
                     
                     FormTextField(label: "Name",
                                   placeholder: "Fill in the restaurant name",
-                                  value: .constant(""))
+                                  value: $restaurantFormViewModel.name)
 
                     FormTextField(label: "type",
                                   placeholder: "Fill in the restaurant type",
-                                  value: .constant(""))
+                                  value: $restaurantFormViewModel.type)
                     
                     FormTextField(label: "address",
                                   placeholder: "Fill in the restaurant address",
-                                  value: .constant(""))
+                                  value: $restaurantFormViewModel.location)
                     
                     FormTextField(label: "phone",
                                   placeholder: "Fill in the restaurant phone",
-                                  value: .constant(""))
+                                  value: $restaurantFormViewModel.phone)
                     
                     
-                    FormTextView(label: "Description", value: .constant(""), height: 100)
+                    FormTextView(label: "Description", value: $restaurantFormViewModel.summary , height: 100)
                         
                 }
                 .padding()
@@ -82,10 +90,15 @@ struct NewRestaurantView: View {
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     
-                    Text("Save")
-                        .font(.headline)
-                        .foregroundColor(Color("NavigationBarTitle"))
-                    
+                    Button {
+                        save()
+                        dismiss()
+                    } label: {
+                        Text("Save")
+                            .font(.headline)
+                            .foregroundColor(Color("NavigationBarTitle"))
+                        
+                    }
                 }
 
                 
@@ -109,16 +122,26 @@ struct NewRestaurantView: View {
             
             switch source {
                 
-            case .photoLibrary: ImagePicker(sourceType: .photoLibrary, image: $restaurantImage)
-                    .ignoresSafeArea()
+            case .photoLibrary: ImagePicker(sourceType: .photoLibrary,
+                                            image: $restaurantFormViewModel.image).ignoresSafeArea()
                 
-            case .camera: ImagePicker(sourceType: .camera, image: $restaurantImage)
+            case .camera: ImagePicker(sourceType: .camera, image: $restaurantFormViewModel.image)
                     .ignoresSafeArea()
 
             }
-            
         }
         .tint(.primary)
+    }
+    
+    private func save(){
+        let restaurant = Restaurant(name: restaurantFormViewModel.name,
+                                    type: restaurantFormViewModel.type,
+                                    location: restaurantFormViewModel.location,
+                                    phone: restaurantFormViewModel.phone,
+                                    description: restaurantFormViewModel.summary,
+                                    image: restaurantFormViewModel.image)
+                                    
+        modelContext.insert(restaurant)
     }
 }
 
