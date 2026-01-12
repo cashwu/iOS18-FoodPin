@@ -21,6 +21,9 @@ struct TutorialView : View {
     
     let pageImages = [ "onboarding-1","onboarding-2" ,"onboarding-3"  ]
     
+    @State private var currentPage = 0
+    @Environment(\.dismiss) var dismiss
+    
     init() {
         
         UIPageControl.appearance().currentPageIndicatorTintColor = .systemIndigo
@@ -28,19 +31,61 @@ struct TutorialView : View {
 
     var body: some View {
         
-        TabView {
-            
-            ForEach(pageHeadings.indices, id: \.self) { index in
+        VStack {
+            TabView(selection: $currentPage) {
                 
-                TutorialPage(image: pageImages[index],
-                             heading: pageHeadings[index],
-                             subHeading: pageSubHeadings[index])
-                .tag(index)
+                ForEach(pageHeadings.indices, id: \.self) { index in
+                    
+                    TutorialPage(image: pageImages[index],
+                                 heading: pageHeadings[index],
+                                 subHeading: pageSubHeadings[index])
+                    .tag(index)
+                    
+                }
+            }
+            .tabViewStyle(.page(indexDisplayMode: .always))
+            .indexViewStyle(.page(backgroundDisplayMode: .always))
+            .animation(.default, value: currentPage)
+            
+            VStack(spacing: 20) {
+               
+                Button(action: {
+                    
+                    if currentPage < pageHeadings.count - 1 {
+                        currentPage += 1
+                    } else {
+                        dismiss()
+                    }
+                    
+                }) {
+                    
+                    Text(currentPage == pageHeadings.count - 1
+                         ? "GET STARTED"
+                         : "NEXT")
+                    .font(.headline)
+                    .foregroundStyle(.white)
+                    .padding()
+                    .padding(.horizontal, 50)
+                    .background(Color(.systemIndigo))
+                    .cornerRadius(25)
+                    
+                }
+                
+                if currentPage < pageHeadings.count - 1 {
+                    
+                    Button(action: {
+                        dismiss()
+                    }){
+                        Text("Skip")
+                            .font(.headline)
+                            .foregroundStyle(Color(.darkGray))
+                    }
+                }
                 
             }
+            .padding(.bottom)
+            
         }
-        .tabViewStyle(.page(indexDisplayMode: .always))
-        .indexViewStyle(.page(backgroundDisplayMode: .always))
         
     }
 }
