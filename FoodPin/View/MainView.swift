@@ -33,7 +33,7 @@ struct MainView: View {
                 }
                 .tag(2)
         }
-        
+        .tint(Color("NavigationBarTitle"))
         
     }
 }
