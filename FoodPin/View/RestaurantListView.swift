@@ -20,7 +20,8 @@ struct RestaurantListView: View {
     @State private var searchText = ""
     @State private var searchResult: [Restaurant] = []
     @State private var isSearchActive = false
-    
+    @State private var showWalkthrough = true
+
     var body: some View {
         NavigationStack {
             List {
@@ -70,6 +71,9 @@ struct RestaurantListView: View {
         }
         .sheet(isPresented: $showNewRestaurant) {
            NewRestaurantView()
+        }
+        .sheet(isPresented: $showWalkthrough) {
+            TutorialView()
         }
         .searchable(text: $searchText,
                     isPresented: $isSearchActive,
