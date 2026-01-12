@@ -24,6 +24,8 @@ struct TutorialView : View {
     @State private var currentPage = 0
     @Environment(\.dismiss) var dismiss
     
+    @AppStorage("hasViewedWalkthrough") var hasViewedWalkthrough: Bool = true
+
     init() {
         
         UIPageControl.appearance().currentPageIndicatorTintColor = .systemIndigo
@@ -54,6 +56,8 @@ struct TutorialView : View {
                     if currentPage < pageHeadings.count - 1 {
                         currentPage += 1
                     } else {
+                        hasViewedWalkthrough = true
+                        
                         dismiss()
                     }
                     
