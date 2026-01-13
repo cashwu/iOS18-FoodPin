@@ -20,8 +20,9 @@ struct AboutView: View {
                     .scaledToFit()
                 
                 Section {
-                    
-                    Label("Rate us on App Store", image: "store")
+                    Link(destination: URL(string: WebLink.rateUs.rawValue)!, label: { Label("Rate us on App Store", image: "store")
+                            .foregroundStyle(.primary)
+                    })
                     
                     Label("Tell us your feedback", image: "chat")
 
@@ -47,6 +48,17 @@ struct AboutView: View {
         
     }
 }
+
+enum WebLink : String {
+    
+    case rateUs = "https:/www.apple.com/ios/app-store"
+    case feedback = "https:/blog.cashwu.com"
+    case twitter = "https://x.com/CashWuGeek"
+    case facebook = "https://www.facebook.com/cashwugeek"
+    case instagrem = "https://www.instagram.com/cashwugeek"
+
+}
+
 
 #Preview {
     AboutView()
