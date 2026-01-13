@@ -48,8 +48,8 @@ struct NewRestaurantView: View {
                             self.showPhotoOptions.toggle()
                         }
                     
-                    FormTextField(label: "Name",
-                                  placeholder: "Fill in the restaurant name",
+                    FormTextField(label: String(localized: "Name") ,
+                                  placeholder: String("Fill in the restaurant name"),
                                   value: $restaurantFormViewModel.name)
 
                     FormTextField(label: "type",
