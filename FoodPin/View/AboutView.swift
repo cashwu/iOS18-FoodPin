@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct AboutView: View {
+    
+    @State private var link: WebLink?
+    
+    
     var body: some View {
         
         
@@ -25,23 +29,42 @@ struct AboutView: View {
                     })
                     
                     Label("Tell us your feedback", image: "chat")
+                        .onTapGesture {
+                            link = .feedback
+                        }
 
                 }
                 
                 Section {
                     
                     Label("Twitter", image: "facebook")
-                    
+                        .onTapGesture {
+                            link = .twitter
+                        }
+
                     Label("Facebook", image: "facebook")
+                        .onTapGesture {
+                            link = .facebook
+                        }
 
                     Label("Instagram", image: "instagram")
+                        .onTapGesture {
+                            link = .instagrem
+                        }
 
                 }
             }
             .listStyle(.grouped)
             .navigationTitle("About")
             .navigationBarTitleDisplayMode(.automatic)
-            
+            .sheet(item: $link) { item in
+                
+                if let url = URL(string: item.rawValue) {
+                    WebView(url: url)
+                }
+                
+            }
+
             
         }
         
@@ -49,7 +72,7 @@ struct AboutView: View {
     }
 }
 
-enum WebLink : String {
+enum WebLink : String, Identifiable {
     
     case rateUs = "https:/www.apple.com/ios/app-store"
     case feedback = "https:/blog.cashwu.com"
@@ -57,6 +80,10 @@ enum WebLink : String {
     case facebook = "https://www.facebook.com/cashwugeek"
     case instagrem = "https://www.instagram.com/cashwugeek"
 
+    
+    var id : UUID {
+        UUID()
+    }
 }
 
 
