@@ -91,3 +91,8 @@ enum WebLink : String, Identifiable {
 #Preview {
     AboutView()
 }
+
+#Preview("about (German)") {
+    AboutView()
+        .environment(\.locale, .init(identifier: "de"))
+}
