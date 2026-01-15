@@ -111,6 +111,15 @@ struct RestaurantListView: View {
                 searchResult = result
             }
         }
+        .onOpenURL(perform: { url in
+            
+            switch url.path {
+                
+            case "/NewRestaurant" : showNewRestaurant = true
+                
+            default: return
+            }
+        })
     }
     
     private func deleteRecord(indexSet: IndexSet) {
