@@ -119,7 +119,7 @@ struct FoodPinApp: App {
         
     }
     
-    final class AppDelegate: UIResponder, UIApplicationDelegate {
+    final class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
         
         func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
             
@@ -146,5 +146,35 @@ struct FoodPinApp: App {
             return true;
             
         }
+        
+        func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                    didReceive response: UNNotificationResponse,
+                                    withCompletionHandler completionHandler: @escaping () -> Void) {
+            
+            if response.actionIdentifier == "foodpin.makeReservation" {
+                print("make reservation")
+                
+                if let phone = response.notification.request.content.userInfo["phone"] {
+                    
+                    let telURL = "tel://\(phone)"
+                    
+                    if let url = URL(string: telURL) {
+                        if UIApplication.shared.canOpenURL(url) {
+                            print("call \(telURL)")
+                            UIApplication.shared.open(url)
+                        }
+                    }
+                    
+                }
+                
+            }
+            
+            completionHandler()
+            
+//            UNUserNotificationCenter.current().delegate = self
+            
+        }
+        
+
     }
 }

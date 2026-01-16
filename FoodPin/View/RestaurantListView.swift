@@ -150,6 +150,7 @@ struct RestaurantListView: View {
         content.subtitle = "Try new food today"
         content.body = "i recommend \(suggestedRestaurant.name)"
         content.sound = .default
+        content.userInfo = ["phone": suggestedRestaurant.phone]
         
         let tempDirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
         let tempFileURL = tempDirURL.appendingPathComponent("forkee")
@@ -160,6 +161,17 @@ struct RestaurantListView: View {
         if let restaurantImage = try?  UNNotificationAttachment(identifier: "restaurantImage", url: tempFileURL, options: nil) {
             content.attachments = [restaurantImage]
         }
+        
+        let categoryIdentifer = "foodpin.restaurantaction"
+        let makeReservationAction = UNNotificationAction(identifier: "foodpin,makeReservation", title: "Reserve a table", options: [.foreground])
+        let cancelAction = UNNotificationAction(identifier: "foodpin.cancel", title: "Later", options: [])
+        
+        let category = UNNotificationCategory(identifier: categoryIdentifer,
+                               actions: [makeReservationAction, cancelAction],
+                               intentIdentifiers: [])
+        
+        UNUserNotificationCenter.current().setNotificationCategories([category])
+        content.categoryIdentifier = categoryIdentifer
         
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
