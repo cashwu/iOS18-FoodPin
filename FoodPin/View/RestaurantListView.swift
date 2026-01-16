@@ -120,6 +120,9 @@ struct RestaurantListView: View {
             default: return
             }
         })
+        .task {
+            prepareNotification()
+        }
     }
     
     private func deleteRecord(indexSet: IndexSet) {
@@ -129,6 +132,30 @@ struct RestaurantListView: View {
             modelContext.delete(itemToDelete)
         }
         
+    }
+    
+    private func prepareNotification() {
+        
+        if restaurants.count <= 0 {
+            return
+        }
+        
+        let randomNum = Int.random(in: 0..<restaurants.count)
+        
+        let suggestedRestaurant = restaurants[randomNum]
+        
+        let content = UNMutableNotificationContent()
+        
+        content.title = "Restaurant Recommendation"
+        content.subtitle = "Try new food today"
+        content.body = "i recommend \(suggestedRestaurant.name)"
+        content.sound = .default
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+        
+        let request = UNNotificationRequest(identifier: "foodpin.restaurantSuggestion", content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
 }
 
@@ -220,7 +247,7 @@ struct BasicTextImageRow : View {
             ActivityView(activityItems: [defaultText, restaurant.image])
         }
     }
-
+    
 }
 
 struct FullImageRow : View {
