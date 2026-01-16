@@ -151,6 +151,17 @@ struct RestaurantListView: View {
         content.body = "i recommend \(suggestedRestaurant.name)"
         content.sound = .default
         
+        let tempDirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+        let tempFileURL = tempDirURL.appendingPathComponent("forkee")
+//        let tempFileURL = tempDirURL.appendingPathComponent("suggested-restaurant.jpg")
+
+        try? suggestedRestaurant.image.jpegData(compressionQuality: 1.0)?.write(to: tempFileURL)
+        
+        if let restaurantImage = try?  UNNotificationAttachment(identifier: "restaurantImage", url: tempFileURL, options: nil) {
+            content.attachments = [restaurantImage]
+        }
+        
+        
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
         
         let request = UNNotificationRequest(identifier: "foodpin.restaurantSuggestion", content: content, trigger: trigger)
